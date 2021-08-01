@@ -1,17 +1,17 @@
-const { client } = require('./configs')
+const { client } = require('../configs/configs')
 
 const findInFile = async (req, res) => {
   try {
     const { filter } = req.query
 
-    const response = await client.search({
+    const { body } = await client.search({
       index: 'english',
       q: filter
     })
 
-    const data = response.hits.hits.map((file) => {
+    const data = body.hits.hits.map((file) => {
       return {
-        url: `localhost:3000/${file["_source"].filename}`
+        url: `localhost:7000/download/${file["_source"].filename}`
       }
     })
 
@@ -24,7 +24,7 @@ const findInFile = async (req, res) => {
 const downloadFile = async (req, res) => {
   try {
     const { urlFile } = req.params
-    const url = `${process.cwd()}/${urlFile}`
+    const url = `${process.cwd()}/files/${urlFile}`
 
     res.download(url);
   } catch (error) {

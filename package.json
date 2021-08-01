@@ -2,15 +2,16 @@
   "name": "find-text-in-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "start": "nodemon ./index.js"
+    "start": "nodemon ./src/index.js",
+    "debug": "nodemon --inspect ./src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "elasticsearch": "^16.7.2",
+    "@elastic/elasticsearch": "^7.13.0",
     "express": "^4.17.1",
     "hound": "^1.0.5",
     "nodemon": "^2.0.12"
