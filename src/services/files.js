@@ -24,7 +24,7 @@ const findInFile = async (req, res) => {
 const downloadFile = async (req, res) => {
   try {
     const { urlFile } = req.params
-    const url = `${process.cwd()}/files/${urlFile}`
+    const url = `${process.cwd()}/src/files/${urlFile}`
 
     res.download(url);
   } catch (error) {

@@ -1,20 +1,40 @@
 const { Client } = require('@elastic/elasticsearch')
+const axios = require('axios');
+const urlBase = 'http://elasticsearch:9200'
 
 const client = new Client({
-  node: 'http://0.0.0.0:9200/',
+  node: urlBase,
   apiVersion: '7.2', // use the same version of your Elasticsearch instance
 });
 
 const checkAndCreateIndice = function (index) {
   client.indices.exists({
     index
-  }, (err, res, status) => {
+  }, async (err, res, status) => {
+
     if (!res.body) {
       client.indices.create({
         index
-      }, (err, res, status) => {
-        console.log(err, res, status);
+      }, async (err, res, status) => {
+        if (err) {
+          return console.log(err)
+        }
+
+        await axios.put(`${urlBase}/_ingest/pipeline/attachment`, {
+          "description": "new pipeline",
+          "processors": [
+            {
+              "attachment": {
+                "field": "data"
+              }
+            }
+          ]
+        });
+
+        console.log('Index create with success');
       })
+
+
     }
   })
 };
