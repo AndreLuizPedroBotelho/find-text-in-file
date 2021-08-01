@@ -40,7 +40,7 @@ services:
     depends_on:
       - elasticsearch
     volumes:
-      - <PATH>:/usr/app/files/
+      - ${PATH_VOLUME_FILE}:/usr/app/files/
     networks:
       - esnet
 
