@@ -1,0 +1,32 @@
+.text-center{
+	text-align: center;
+}
+
+body {
+  display:flex; 
+  flex-direction:column; 
+  justify-content:center;
+  min-height:60vh;
+}
+
+input{
+  width: 60%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    color: #584d4d;
+    border-color: #496f6f;
+    font-size: 25px;
+    outline:none;
+    direction:ltr;
+    margin-top:10px;
+    text-align-last: justify;
+    text-align: justify;
+}
+
+.container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

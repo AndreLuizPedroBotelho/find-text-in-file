@@ -3,7 +3,14 @@ const files = require('./services/files');
 
 const router = express.Router();
 
-router.get('/', files.findInFile);
-router.get('/download/:urlFile', files.downloadFile);
+
+router.get('/api', files.findInFile);
+router.get('/api/download/:urlFile', files.downloadFile);
+router.post('/api/upload', files.uploadFile);
+
+
+router.get('/upload', files.uploadView);
+router.get('/search', files.searchView);
+
 
 module.exports = router;

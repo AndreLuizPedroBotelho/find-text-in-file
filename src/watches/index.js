@@ -1,6 +1,6 @@
 const fs = require('fs')
 const hound = require('hound')
-const { client } = require('../configs/configs')
+const { client } = require('../configs')
 
 const watcher = hound.watch('files')
 
@@ -9,8 +9,7 @@ watcher.on('create', async function (file, stats) {
   const url = `${process.cwd()}/src/files/${filename}`
   const oldUrl = `${process.cwd()}/${file}`
 
-  fs.copyFileSync(oldUrl, url);
-  fs.unlinkSync(oldUrl);
+  fs.renameSync(oldUrl, url);
 
   const contents = fs.readFileSync(url, { encoding: 'base64' });
 
