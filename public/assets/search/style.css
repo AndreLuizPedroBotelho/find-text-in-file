@@ -2,26 +2,34 @@
 	text-align: center;
 }
 
+.title{
+  color:white;
+}
+
 body {
   display:flex; 
   flex-direction:column; 
   justify-content:center;
   min-height:60vh;
+  background-size:cover;
+  background-image:url('../background.jpg');
+  background-repeat: no-repeat;
 }
 
 input{
-  width: 60%;
+    width: 60%;
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    color: #584d4d;
-    border-color: #496f6f;
+    color: #dedddd;    
+    border-color: #cfdada;
     font-size: 25px;
     outline:none;
     direction:ltr;
     margin-top:10px;
     text-align-last: justify;
     text-align: justify;
+    background-color: transparent;
 }
 
 .container{
@@ -29,4 +37,43 @@ input{
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+
+.barra{
+  background-color: #598ddc;
+  margin: 10px 0;
+  position: relative;
+  width: 60%;
+  align-items: center;
+  align-self: center;
+  border: 1px solid;
+}
+
+
+.barra .text{
+	z-index: 10;
+	text-align: center;
+	padding: 3px 5px;
+	box-sizing: border-box;
+	position: relative;
+	width: 100%;
+	color: black;
+	font-size: 20px;
+  padding: 20px;
+}
+
+
+.barra .text a{
+	color:black;
+}
+
+.barra-error .text{
+	color: red;
+
+}
+
+.lista-file{
+  display: flex;
+    flex-direction: column;
+    margin-top: 40px;
 }

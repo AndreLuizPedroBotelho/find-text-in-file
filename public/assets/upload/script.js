@@ -1,15 +1,15 @@
 let drop_ = document.querySelector('.area-upload #upload-file');
 
 drop_.addEventListener('dragenter', function () {
-  document.querySelector('.area-upload .label - upload').classList.add('highlight');
+  document.querySelector('.area-upload .label-upload').classList.add('highlight');
 });
 
 drop_.addEventListener('dragleave', function () {
-  document.querySelector('.area-upload .label - upload').classList.remove('highlight');
+  document.querySelector('.area-upload .label-uploade').classList.remove('highlight');
 });
 
 drop_.addEventListener('drop', function () {
-  document.querySelector('.area-upload .label - upload').classList.remove('highlight');
+  document.querySelector('.area-upload .label-upload').classList.remove('highlight');
 });
 
 document.querySelector('#upload-file').addEventListener('change', function () {
@@ -17,6 +17,16 @@ document.querySelector('#upload-file').addEventListener('change', function () {
 
   for (let i = 0; i < files.length; i++) {
     const info = validarArquivo(files[i]);
+
+    if (info.error !== undefined) {
+      Swal.fire({
+        title: 'Error!',
+        text: info.error,
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+      return
+    }
 
     const barra = document.createElement("div");
     const fill = document.createElement("div");
@@ -30,10 +40,7 @@ document.querySelector('#upload-file').addEventListener('change', function () {
 
     if (info.error == undefined) {
       text.innerHTML = info.success;
-      enviarArquivo(i, barra); //Enviar
-    } else {
-      text.innerHTML = info.error;
-      barra.classList.add("error");
+      enviarArquivo(i, barra);
     }
 
     document.querySelector('.lista-uploads').appendChild(barra);
@@ -43,8 +50,8 @@ document.querySelector('#upload-file').addEventListener('change', function () {
 function validarArquivo(file) {
   const mime_types = ['.docx'];
 
-  if (mime_types.includes(file.name)) {
-    return { "error": "O arquivo " + file.name + " não permitido" };
+  if (!file.name.includes(mime_types)) {
+    return { "error": "O arquivo " + file.name + " não é permitido" };
   }
 
   return { "success": "Enviando: " + file.name };
@@ -66,13 +73,15 @@ function enviarArquivo(indice, barra) {
 
   request.addEventListener('load', function (e) {
     if (request.response.success) {
-      barra.querySelector(".text").innerHTML = "<i> Finalizado </i>";
-      barra.classList.add("complete");
       clearBarra(barra)
-
     } else {
-      barra.querySelector(".text").innerHTML = "Erro ao enviar: " + request.response.name;
-      barra.classList.add("error");
+      Swal.fire({
+        title: 'Error!',
+        text: 'Erro ao enviar aquivo',
+        icon: 'error',
+        confirmButtonText: 'Cool'
+      })
+      clearBarra(barra)
     }
   });
 

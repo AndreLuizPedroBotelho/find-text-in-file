@@ -11,7 +11,7 @@ const findInFile = async (req, res) => {
 
     const data = body.hits.hits.map((file) => {
       return {
-        url: `${process.env.BASE_URL}/download/${file["_source"].filename}`
+        url: `${process.env.BASE_URL}/api/download/${file["_source"].filename}`
       }
     })
 
