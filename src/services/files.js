@@ -16,18 +16,11 @@ const findInFile = async (req, res) => {
 
     let data = []
     for (const file of body.hits.hits) {
-      const fileDoc = await fs.readFile(__dirname + '/../files/' + file["_source"].filename)
-
-      let done = await lib_convert(fileDoc, '.pdf', undefined)
-      const newUrl = __dirname + '/../../temp/' + Math.random() + '.pdf'
-      await fs.writeFile(newUrl, done)
-      const newfileDoc = await fs.readFile(newUrl)
 
       const newData = {}
       newData.nameFile = file["_source"].filename
-      newData.base64 = newfileDoc.toString('base64')
+      newData.base64 = file["_source"].base64
 
-      await fs.unlink(newUrl)
 
       data.push(newData)
     }

@@ -7,6 +7,12 @@ function debounce(func, timeout = 1200) {
   };
 }
 
+function removeIframe() {
+  document.querySelector("iframe").remove()
+  document.querySelector(".iframeFile button").remove()
+  document.querySelector(".iframeFile").style.display = "none";
+}
+
 function createBarra(messageText, base64, isError = false) {
   const barra = document.createElement("div");
   const text = document.createElement("div");
@@ -37,10 +43,18 @@ function loadFile(data) {
   iframe.setAttribute("height", "100vh");
   iframe.setAttribute("id", "pdf-js-viewer");
 
-  console.log(iframe.body)
+  document.querySelector(".iframeFile").style.display = "flex";
+
+  const button = document.createElement("button");
+
+  button.addEventListener('click', () => {
+    removeIframe()
+  })
+
+  button.innerHTML = 'x'
+
   document.querySelector('.iframeFile').append(iframe)
-
-
+  document.querySelector('.iframeFile').append(button)
 }
 
 function searchFile() {
@@ -51,12 +65,12 @@ function searchFile() {
   request.addEventListener('load', function (e) {
 
     if (request.response.length < 1) {
-      const messageText = `Não foi encontrado nenhum documento que contenha a palavra <strong>${search}</strong>`;
+      const messageText = `Não foi encontrado nenhum documento que contenha a palavra < strong > ${search}</ > `;
       return createBarra(messageText, null, true)
     }
 
     for (const { nameFile, base64 } of request.response) {
-      const messageText = `Arquivo: <span class="a-file" >${nameFile}</span>`;
+      const messageText = `<span class="a-file" >${nameFile}</span>`;
       createBarra(messageText, base64)
     }
   });
