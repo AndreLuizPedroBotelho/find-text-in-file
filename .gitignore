@@ -4,3 +4,5 @@ files/*
 src/files
 !src/files/.gitkeep
 .env
+temp
+!temp/.gitkeep

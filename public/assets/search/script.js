@@ -7,7 +7,7 @@ function debounce(func, timeout = 1200) {
   };
 }
 
-function createBarra(messageText, isError = false) {
+function createBarra(messageText, base64, isError = false) {
   const barra = document.createElement("div");
   const text = document.createElement("div");
   barra.appendChild(text);
@@ -18,11 +18,29 @@ function createBarra(messageText, isError = false) {
     barra.classList.add("barra-error");
   }
 
+  barra.addEventListener('click', () => {
+    loadFile(base64)
+  })
+
   text.classList.add("text");
 
   barra.querySelector(".text").innerHTML = messageText;
 
   document.querySelector('.lista-file').append(barra)
+}
+
+function loadFile(data) {
+  const iframe = document.createElement("iframe");
+
+  iframe.setAttribute("src", `data:application/pdf;base64, ${data}`);
+  iframe.setAttribute("width", "100%");
+  iframe.setAttribute("height", "100vh");
+  iframe.setAttribute("id", "pdf-js-viewer");
+
+  console.log(iframe.body)
+  document.querySelector('.iframeFile').append(iframe)
+
+
 }
 
 function searchFile() {
@@ -34,12 +52,12 @@ function searchFile() {
 
     if (request.response.length < 1) {
       const messageText = `Não foi encontrado nenhum documento que contenha a palavra <strong>${search}</strong>`;
-      return createBarra(messageText, true)
+      return createBarra(messageText, null, true)
     }
 
-    for (const { url } of request.response) {
-      const messageText = `File: <a href="${url}" target="_blank">${url}</a>`;
-      createBarra(messageText)
+    for (const { nameFile, base64 } of request.response) {
+      const messageText = `Arquivo: <span class="a-file" >${nameFile}</span>`;
+      createBarra(messageText, base64)
     }
   });
 

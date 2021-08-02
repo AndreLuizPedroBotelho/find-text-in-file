@@ -60,20 +60,25 @@ input{
 	color: black;
 	font-size: 20px;
   padding: 20px;
+  cursor: pointer;
 }
 
 
-.barra .text a{
+.barra .text span{
 	color:black;
+  word-break: break-all;
 }
 
 .barra-error .text{
-	color: red;
-
+  color: #ab2b2b;
 }
 
 .lista-file{
   display: flex;
     flex-direction: column;
     margin-top: 40px;
+}
+
+.iframeFile iframe{
+  height:100vh;
 }

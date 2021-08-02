@@ -5,7 +5,6 @@ const router = express.Router();
 
 
 router.get('/api', files.findInFile);
-router.get('/api/download/:urlFile', files.downloadFile);
 router.post('/api/upload', files.uploadFile);
 
 

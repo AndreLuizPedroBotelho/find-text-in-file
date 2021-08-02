@@ -13,7 +13,7 @@ require('./watches')
 
 const app = express()
 const port = process.env.PORT
-console.log(__dirname + '/../public')
+
 app.use(express.static(__dirname + '/../public'));
 
 app.engine('hbs', handlebars({

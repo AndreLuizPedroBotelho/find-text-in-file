@@ -1,4 +1,9 @@
 const { client } = require('../configs')
+const libre = require('libreoffice-convert');
+const fs = require('fs').promises;
+const util = require('util');
+
+let lib_convert = util.promisify(libre.convert)
 
 const findInFile = async (req, res) => {
   try {
@@ -9,28 +14,29 @@ const findInFile = async (req, res) => {
       q: filter
     })
 
-    const data = body.hits.hits.map((file) => {
-      return {
-        url: `${process.env.BASE_URL}/api/download/${file["_source"].filename}`
-      }
-    })
+    let data = []
+    for (const file of body.hits.hits) {
+      const fileDoc = await fs.readFile(__dirname + '/../files/' + file["_source"].filename)
 
+      let done = await lib_convert(fileDoc, '.pdf', undefined)
+      const newUrl = __dirname + '/../../temp/' + Math.random() + '.pdf'
+      await fs.writeFile(newUrl, done)
+      const newfileDoc = await fs.readFile(newUrl)
+
+      const newData = {}
+      newData.nameFile = file["_source"].filename
+      newData.base64 = newfileDoc.toString('base64')
+
+      await fs.unlink(newUrl)
+
+      data.push(newData)
+    }
     res.send(data);
   } catch (error) {
     console.trace(error.message)
   }
 }
 
-const downloadFile = async (req, res) => {
-  try {
-    const { urlFile } = req.params
-    const url = `${process.cwd()}/src/files/${urlFile}`
-
-    res.download(url);
-  } catch (error) {
-    console.trace(error.message)
-  }
-}
 
 const uploadFile = async (req, res) => {
   try {
@@ -65,7 +71,6 @@ const searchView = async (req, res) => {
 
 module.exports = {
   findInFile,
-  downloadFile,
   uploadView,
   searchView,
   uploadFile
