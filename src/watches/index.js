@@ -1,4 +1,4 @@
-const fs = require('fs')
+const fs = require('fs').promises
 const hound = require('hound')
 const { client } = require('../configs')
 const libre = require('libreoffice-convert');
@@ -14,22 +14,23 @@ watcher.on('create', async function (file, stats) {
   const url = `${process.cwd()}/src/files/${filename}`
   const oldUrl = `${process.cwd()}/${file}`
 
-  fs.renameSync(oldUrl, url);
+  await fs.rename(oldUrl, url);
 
-  const contents = fs.readFileSync(url, { encoding: 'base64' });
-  const fileDoc = fs.readFileSync(url)
+  const contents = await fs.readFile(url, { encoding: 'base64' });
 
-  const done = await lib_convert(fileDoc, '.pdf', undefined)
+  const fileDoc = await fs.readFile(url)
 
-  const newUrl = __dirname + '/../../temp/' + Math.random() + '.pdf'
+  const done = await lib_convert(fileDoc, '.html', undefined)
 
-  fs.writeFileSync(newUrl, done)
+  const newUrl = __dirname + '/../../temp/' + Math.random() + '.html'
 
-  const newfileDoc = fs.readFileSync(newUrl)
+  await fs.writeFile(newUrl, done)
+
+  const newfileDoc = await fs.readFile(newUrl)
 
   const base64 = newfileDoc.toString('base64')
 
-  fs.unlinkSync(newUrl)
+  await fs.unlink(newUrl)
 
   await client.index({
     index: "english",

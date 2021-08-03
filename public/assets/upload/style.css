@@ -1,7 +1,7 @@
 body {
   background-size:cover;
   background-image:url('../background.jpg');
-  background-repeat: no-repeat;
+	background-repeat: repeat;
 }
 
 .title{ 

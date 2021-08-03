@@ -13,7 +13,7 @@ body {
   min-height:60vh;
   background-size:cover;
   background-image:url('../background.jpg');
-  background-repeat: no-repeat;
+  background-repeat: repeat;
 }
 
 input{
@@ -85,10 +85,15 @@ input{
   padding: -14px;
   margin: 49px;
   display: none;
+  margin-top: 6rem;
 }
 
-.iframeFile iframe{
-  height:100vh;
+.iframeFile .html-document{
+  height: 100vh;
+  background: white;
+  padding: 20px;
+  overflow-y: scroll;
+  width: 100%;
 }
 
 .iframeFile button{

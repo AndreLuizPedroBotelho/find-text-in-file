@@ -1,16 +1,11 @@
 const { client } = require('../configs')
-const libre = require('libreoffice-convert');
-const fs = require('fs').promises;
-const util = require('util');
-
-let lib_convert = util.promisify(libre.convert)
 
 const findInFile = async (req, res) => {
   try {
     const { filter } = req.query
-
     const { body } = await client.search({
       index: 'english',
+
       q: filter
     })
 

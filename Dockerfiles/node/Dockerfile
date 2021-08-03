@@ -15,5 +15,8 @@ RUN npm install
 # Bundle app source
 COPY . .
 
+COPY .env.docker .env
+
+
 EXPOSE 8080
 CMD [ "node", "src/index.js" ]
