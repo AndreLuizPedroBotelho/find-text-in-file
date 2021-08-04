@@ -24,10 +24,11 @@ function createBarra(messageText, base64, isError = false) {
     barra.classList.add("barra-error");
   }
 
-  barra.addEventListener('click', () => {
-    loadFile(base64)
-  })
-
+  if (!isError) {
+    barra.addEventListener('click', () => {
+      loadFile(base64)
+    })
+  }
   text.classList.add("text");
 
   barra.querySelector(".text").innerHTML = messageText;
