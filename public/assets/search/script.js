@@ -10,7 +10,7 @@ function debounce(func, timeout = 1000) {
 function removeIframe() {
   document.getElementsByClassName('html-document')[0].remove()
   document.getElementById('iframeFile').style.display = 'none'
-  document.querySelector('html').style.overflowX = 'scroll'
+  document.querySelector('html').style.overflowY = 'auto'
 }
 
 function createBarra(messageText, base64, isError = false) {
