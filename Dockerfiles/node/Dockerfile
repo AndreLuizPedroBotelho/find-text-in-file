@@ -17,6 +17,9 @@ COPY . .
 
 COPY .env.docker .env
 
+RUN apt-get update
+
+RUN apt-get install libreoffice -y
 
 EXPOSE 8080
 CMD [ "node", "src/index.js" ]

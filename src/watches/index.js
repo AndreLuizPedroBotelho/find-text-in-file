@@ -9,7 +9,7 @@ const util = require('util');
 let lib_convert = util.promisify(libre.convert)
 
 watcher.on('create', async function (file, stats) {
-  const filename = file.replace(/(.docx)|(files\/)|\W/gm, '');
+  const filename = file.replace(/(.docx)|(files\/)/gm, '');
 
   const oldUrl = `${process.cwd()}/${file}`;
 
@@ -17,7 +17,7 @@ watcher.on('create', async function (file, stats) {
 
   const done = await lib_convert(fileDoc, '.html', undefined)
 
-  const newUrl = `${__dirname}/../../temp/${filename}.html`;
+  const newUrl = `${__dirname}/../../temp/${Math.random()}.html`;
 
   await fs.writeFile(newUrl, done)
 

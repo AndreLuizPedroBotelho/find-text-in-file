@@ -9,8 +9,8 @@ function debounce(func, timeout = 1000) {
 
 function removeIframe() {
   document.getElementsByClassName('html-document')[0].remove()
-  document.querySelector(".iframeFile button").remove()
-  document.querySelector(".iframeFile").style.display = "none";
+  document.getElementById('iframeFile').style.display = 'none'
+  document.querySelector('html').style.overflowX = 'scroll'
 }
 
 function createBarra(messageText, base64, isError = false) {
@@ -54,25 +54,19 @@ function loading(loading) {
 }
 
 function loadFile(data) {
+  document.querySelector('#iframeFile').style.display = 'block'
+  document.querySelector('html').style.overflowX = 'initial'
+
+  document.body.style.overflowY = 'hidden'
+
   const html = document.createElement("div");
   const search = document.querySelector('#search-file').value;
 
   html.innerHTML = b64DecodeUnicode(data);
   html.classList.add("html-document");
 
-  const button = document.createElement("button");
-  button.addEventListener('click', () => {
-    removeIframe()
-  })
-
-  button.innerHTML = 'x'
-
-  document.querySelector('.iframeFile').append(html)
-  document.querySelector('.iframeFile').append(button)
-
+  document.querySelector('#iframeFile .w3-container').append(html)
   document.querySelectorAll('img').forEach((el) => el.remove())
-
-  document.querySelector(".iframeFile").style.display = "flex";
 
   const instance = new Mark(html);
   instance.mark(search)
@@ -118,5 +112,10 @@ function searchFile() {
 const processChange = debounce(() => searchFile());
 
 document.querySelector('#search-file').addEventListener('keypress', function () {
+  processChange();
+});
+
+
+document.querySelector('#search-file').addEventListener('keyup', function () {
   processChange();
 });

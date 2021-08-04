@@ -125,3 +125,11 @@ input{
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.w3-modal {
+  padding-top: 20px!important;
+}
+
+.w3-display-topright {
+  font-size: 27px;
+}
