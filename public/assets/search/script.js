@@ -70,7 +70,9 @@ function loadFile(data) {
   document.querySelectorAll('img').forEach((el) => el.remove())
 
   const instance = new Mark(html);
-  instance.mark(search)
+  instance.mark(search, {
+    separateWordSearch: false
+  })
 }
 
 function sleep(milliseconds) {

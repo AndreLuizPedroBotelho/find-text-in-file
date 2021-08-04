@@ -6,6 +6,7 @@ const findInFile = async (req, res) => {
 
     const { body } = await client.search({
       index: 'english',
+      default_operator: 'AND',
       q: filter
     })
 
