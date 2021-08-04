@@ -3,22 +3,19 @@ const { client } = require('../configs')
 const findInFile = async (req, res) => {
   try {
     const { filter } = req.query
+
     const { body } = await client.search({
       index: 'english',
-
       q: filter
     })
 
-    let data = []
-    for (const file of body.hits.hits) {
+    const data = body.hits.hits.map((file) => {
+      return {
+        nameFile: file["_source"].filename,
+        data: file["_source"].data
+      }
+    })
 
-      const newData = {}
-      newData.nameFile = file["_source"].filename
-      newData.base64 = file["_source"].base64
-
-
-      data.push(newData)
-    }
     res.send(data);
   } catch (error) {
     console.trace(error.message)
@@ -31,9 +28,8 @@ const uploadFile = async (req, res) => {
 
     const { name } = req.files.file;
 
-    const uploadpath = __dirname + '/../../files/' + name;
-
-    req.files.file.mv(uploadpath, function (err) { });
+    const uploadPath = __dirname + '/../../files/' + name;
+    req.files.file.mv(uploadPath, function (err) { });
 
     res.json({ success: true })
   } catch (error) {

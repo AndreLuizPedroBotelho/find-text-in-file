@@ -1,8 +1,8 @@
 node_modules
 files/*
 !files/.gitkeep
-src/files
+src/files/*
 !src/files/.gitkeep
 .env
-temp
+temp/*
 !temp/.gitkeep

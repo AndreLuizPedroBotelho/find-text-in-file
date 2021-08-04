@@ -1,4 +1,4 @@
-function debounce(func, timeout = 1200) {
+function debounce(func, timeout = 1000) {
   let timer;
 
   return (...args) => {
@@ -36,10 +36,21 @@ function createBarra(messageText, base64, isError = false) {
 }
 
 function b64DecodeUnicode(str) {
-  // Going backwards: from bytestream, to percent-encoding, to original string.
   return decodeURIComponent(atob(str).split('').map(function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
+}
+
+function loading(loading) {
+  if (loading) {
+    document.querySelector(".loader").style.visibility = "visible";
+    document.querySelector(".loader").style.opacity = "1";
+    return
+  }
+
+  document.querySelector(".loader").style.visibility = "hidden";
+  document.querySelector(".loader").style.opacity = "0";
+
 }
 
 function loadFile(data) {
@@ -53,6 +64,7 @@ function loadFile(data) {
   button.addEventListener('click', () => {
     removeIframe()
   })
+
   button.innerHTML = 'x'
 
   document.querySelector('.iframeFile').append(html)
@@ -60,28 +72,41 @@ function loadFile(data) {
 
   document.querySelectorAll('img').forEach((el) => el.remove())
 
-
   document.querySelector(".iframeFile").style.display = "flex";
 
   const instance = new Mark(html);
   instance.mark(search)
 }
 
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
+
 function searchFile() {
   document.querySelector('.lista-file').innerHTML = ""
+
+  loading(true);
+
   const search = document.querySelector('#search-file').value;
   const request = new XMLHttpRequest();
 
   request.addEventListener('load', function (e) {
+    loading(false);
+    sleep(1000);
 
     if (request.response.length < 1) {
       const messageText = `Não foi encontrado nenhum documento que contenha a palavra <strong>${search}</strong> `;
       return createBarra(messageText, null, true)
     }
 
-    for (const { nameFile, base64 } of request.response) {
+    for (const { nameFile, data } of request.response) {
       const messageText = `<span class="a-file">${nameFile}</span>`;
-      createBarra(messageText, base64)
+      createBarra(messageText, data)
     }
   });
 
