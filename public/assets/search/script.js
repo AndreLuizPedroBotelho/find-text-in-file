@@ -73,6 +73,11 @@ function loadFile(data) {
   instance.mark(search, {
     separateWordSearch: false
   })
+
+  sleep(1000);
+
+  const element = document.querySelector("mark");
+  element.scrollIntoView();
 }
 
 function sleep(milliseconds) {

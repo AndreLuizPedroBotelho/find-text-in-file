@@ -29,7 +29,7 @@ watcher.on('create', async function (file, stats) {
     pipeline: "attachment",
     refresh: true,
     body: {
-      data: contents,
+      base64: contents,
       filename
     }
   })

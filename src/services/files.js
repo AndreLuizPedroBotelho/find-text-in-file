@@ -6,14 +6,19 @@ const findInFile = async (req, res) => {
 
     const { body } = await client.search({
       index: 'english',
-      default_operator: 'AND',
-      q: filter
+      body: {
+        query: {
+          match_phrase: {
+            "attachment.content": filter
+          }
+        }
+      }
     })
 
     const data = body.hits.hits.map((file) => {
       return {
         nameFile: file["_source"].filename,
-        data: file["_source"].data
+        data: file["_source"].base64
       }
     })
 

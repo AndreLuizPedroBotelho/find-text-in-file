@@ -16,12 +16,33 @@ const checkAndCreateIndice = function (index) {
         index
       })
 
+      await client.indices.putMapping({
+        index,
+        body: {
+          properties: {
+            filename: {
+              type: 'text'
+            },
+            attachment: {
+              "type": "object",
+              "properties": {
+                "content": {
+                  "type": "text",
+                  "analyzer": "brazilian",
+                  "copy_to": "texto"
+                }
+              }
+            }
+          }
+        }
+      })
+
       await axios.put(`${process.env.URL_ELASTICSEARCH}/_ingest/pipeline/attachment`, {
         "description": "new pipeline",
         "processors": [
           {
             "attachment": {
-              "field": "data"
+              "field": "base64"
             }
           }
         ]
